@@ -6,11 +6,11 @@ This is an example of a lightweight starting point for sharing an AI-augmented d
 
 *Imagine you have grown your workflow and harness (skills, hooks, guardrails, ... ) over time, you are happy with it, and now you want to share that and the related learning with another team member, other teams, or you want to reuse it on a different product, project or codebase.*
 
-*One way of doing that is to replicate the structure of this repo and follow the instructions and the example given. Read below to see how and why. Or jump to the documentation to see an [example](#documentation-the-workflow)*
+*One way of doing that is to replicate the structure of this repo and follow the instructions and the example given. Read below to see how and why. Or jump to the documentation to see the [example](#documentation-the-workflow).*
 
 ## How to Share
 
-See how to share your workflow and harness using a repo like this one:
+See how to share your workflow and harness, using a repo like this one:
 
 1. Create a repo like this, from scratch or just fork it
 1. Document the workflow in the README as in the example below, starting from 'How to Reuse'
@@ -23,17 +23,17 @@ See how to share your workflow and harness using a repo like this one:
 
 This is why you should share your workflow and harness using a repo like this, with only the **skeleton**, the key structure and essential logic of the various Skills, Hooks, etc., instead of copying them with all their content and details.
 
-### Learning & Evolution
+### For Learning & Evolution
 
 A workflow and its harnesses continuously improve and evolve through ongoing learning. This is indeed what happens in *Loop Engineering*: engineers continuously design, implement, and evolve all the components of the system that guides the agents in getting the work done.
 
 To successfully do this, one needs to understand the workflow and the structure, logic and content of the Skills, Hooks, etc. of each step of the workflow, and how to change, improve, and evolve them. Such solid understanding can be quickly developed starting from a lightweight skeleton containing only key structures and essential logic, and learning to fill the gaps by doing it.
 
-### Sharing
+### For Sharing
 
 A lightweight structure and essential logic are easier to share between team members and across teams, projects, products, and codebases. They create space for the important conversations and knowledge sharing, whereas the full content of a Skill, for example, would contain too many secondary details, many of which are project, product, and codebase specific and would require editing anyway, therefore becoming a distraction.
 
-### Adaptation
+### For Continuous Adaptation
 
 When reusing a workflow and harness on a different project, product or codebase, many specific references to files, commands, domain documentation, etc. need to be identified and replaced.
 Approaching the reuse starting from a lightweight skeleton of that workflow and harness makes it much faster to recreate the Skills and harness with help from the AI. This approach is a good way to learn *Loop Engineering* by doing it from the start, as opposed to a copy-paste exercise that works for individual standard skills, hooks, and MCPs, but not for the whole workflow and its harness.
@@ -146,6 +146,8 @@ In this example, there are only skills for the steps in the workflow. Other exam
 
 *Its purpose is to explore the business-domain concepts and technical implementation details behind a coding task, and persist a Discovery findings report that feeds the Coding Task Inception.*
 
+**File:** [coding-task-discovery](skills/coding-task-discovery/SKILL.md)
+
 **Constraint:** read-only — no application code written, no repo tree modified except the report itself.
 
 **Style:** Highly interactive, with the AI pairing with the User
@@ -180,6 +182,8 @@ Option 2 — a task reference to retrieve the task from the backlog using an MCP
 
 *Its purpose is to turn a coding task brief into a researched, questioned, confirmed, and persisted implementation plan before any code is written.*
 
+**File:** [coding-task-inception](skills/coding-task-inception/SKILL.md)
+
 **Constraint:** read-only —  no application code written; plan persisted only after explicit user confirmation.
 
 **Style:** Highly interactive, with the AI pairing with the User
@@ -210,6 +214,8 @@ Option 2 — a task reference to retrieve the task from the backlog using an MCP
 ### Execution
 
 *Its purpose is to execute the plan as autonomously as possible, using self-correcting verification loops, and produce a work summary report for human review.*
+
+**File:** [coding-task-execution](skills/coding-task-execution/SKILL.md)
 
 **Constraint:** no commits, no branching — working tree left for the user to stage; sub-tasks executed in dependency order.
 
@@ -243,6 +249,8 @@ Option 2 — a task reference to retrieve the task from the backlog using an MCP
 ### Review
 
 *Its purpose is to adversarially review the uncommitted work produced by Execution, fix high-priority findings, and hand the user a PR-review guide and a proposed commit message.*
+
+**File:** [coding-task-review](skills/coding-task-review/SKILL.md)
 
 **Constraint:** no commits, no staging, no revert; nothing changed until the user approves a fix plan; only high-priority findings fixed, lower-priority ones noted but not touched; review done inline, no sub-agents.
 
