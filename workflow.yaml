@@ -1,0 +1,135 @@
+name: TTLeaguePlayers Coding Workflow
+version: "1.0.0"
+description: >
+  Four-skill PEV sequence for an AI-augmented coding task.
+  Discovery → Inception → Execution → Review. Each skill reads the previous
+  skill's persisted output from a shared slug directory. No code is written
+  until Execution; nothing is committed until the user does so after Review.
+
+shared:
+  slug_dir: "coding-tasks/<slug>/"
+
+steps:
+  - id: discovery
+    name: Coding Task Discovery
+    skill_path: skills/coding-task-discovery/SKILL.md
+    trigger: user says "Coding Task Discovery", "Discovery", or asks to explore/research a task before planning
+    inputs:
+      - task framing from the user (option 1):
+          - bigger_picture:   which end-user feature or outcome the task serves
+          - contribution:     how this task contributes to that outcome
+          - description:      high-level description of the task itself
+          - topics_to_explore: which questions and areas the user wants covered
+      - task task from the backlog (option 2):
+          - task_id:  a reference to retrieve the task from the backlog using an MCP
+      - any references named by the user (files, URLs, tickets, screenshots, prior conversations)
+    outputs:
+      - path: "<slug>/discovery.md"
+        contains:
+          - frontmatter (name, description, metadata.type: project)
+          - task framing (bigger picture, contribution, high-level description)
+          - agreed topic list (domain topics and technical topics, numbered)
+          - per-topic findings with evidence (file:line citations, URLs, commands and output)
+          - domain concepts glossary (terms, rules, edge cases)
+          - technical implementation details (structure, call chains, data sources, contracts, config keys)
+          - contradictions and gaps (doc vs code, external source vs expectations, unknowns)
+          - open questions for inception (decisions deliberately deferred)
+          - dated session log
+    constraints:
+      - read-only: no application code written, no repo tree modified except the report itself
+      - no planning or sub-task sequencing (that belongs to inception)
+      - every finding must have a file:line, URL, or command as evidence
+
+  - id: inception
+    name: Coding Task Inception
+    skill_path: skills/coding-task-inception/SKILL.md
+    trigger: user says "Coding Task Inception", "Inception", or asks to plan a task before execution
+    inputs:
+      - path: "<slug>/discovery.md"
+        from_step: discovery
+      - specification from the user:
+          - what to implement
+          - constraints and quality criteria
+          - example files or references
+          - verification approach
+      - always read:
+          - provided infrastructure, tech-stack, architecture md files documentation per area touched
+          - provided codebase md files documentation per area touched
+          - provided domain logic md files documentation per area touched
+          - commands and instructions for the guardrails and feedback sources for self-correction
+    outputs:
+      - path: "<slug>/plan.md"
+        contains:
+          - frontmatter (name, description, metadata.type: project)
+          - goal and explicit out-of-scope
+          - decision table with rationale for each choice
+          - research findings with file:line citations
+          - sub-task table with Status column (to be done / in progress / done)
+          - per-sub-task detail (paths, commands, expected values, why)
+          - Blocked-by dependency column
+          - review checkpoint tasks (explicit stop-and-hand-back points)
+          - standing assumptions and accepted risks
+          - dated progress log
+    constraints:
+      - no application code written during phases 1–8
+      - plan persisted only after explicit user confirmation
+      - build/test/pipeline run strategy during the task
+
+  - id: execution
+    name: Coding Task Execution
+    skill_path: skills/coding-task-execution/SKILL.md
+    trigger: user says "Coding Task Execution", "Execution", or asks to start, resume, or continue work on a stored plan
+    inputs:
+      - path: "<slug>/plan.md"
+        from_step: inception
+      - user confirmation that the pipeline is currently green (baseline)
+    outputs:
+      - code_changes: uncommitted working tree changes on the current branch
+      - path: "<slug>/plan.md"
+        update: Status column updated per sub-task (in progress → done), progress log appended
+      - path: "<slug>/work-summary.md"
+        contains:
+          - one section per completed sub-task:
+              - sub-task number and title
+              - files created or modified with reason for each
+              - verification tier run and result (quoted)
+              - items needing human review (judgement calls, deviations, assumptions, brittleness)
+    constraints:
+      - no commits, no branching, no stash — working tree left for user to stage
+      - sub-tasks executed in dependency order (Blocked-by column)
+
+  - id: review
+    name: Coding Task Review
+    skill_path: skills/coding-task-review/SKILL.md
+    model: opus
+    effort: high
+    trigger: user says "Coding Task Review", "Review", or asks to review work before committing
+    inputs:
+      - path: "<slug>/plan.md"
+        from_step: inception
+      - path: "<slug>/work-summary.md"
+        from_step: execution
+      - path: "<slug>/discovery.md"
+        from_step: discovery
+        note: optional but used for intent reconstruction in the PR-review guide
+      - uncommitted working tree changes produced by execution
+      - user confirmation that the working tree is green (all tests pass)
+    outputs:
+      - code_changes: reviewed and green working tree with approved high-priority fixes applied
+      - path: "<slug>/review.md"
+        contains:
+          - what the change does (feature/outcome in app terms)
+          - decisions the reviewer would otherwise question (plan decision table, condensed)
+          - verification status (tests and pipeline status)
+          - findings: high-priority with resolution; noted-not-actioned as a list
+          - reading order index (numbered steps; tests nested under the step they cover)
+          - walkthrough organised under index steps (Implementation + Related tests per step)
+          - what to check manually (live source values, config per env, judgement calls)
+          - riding-along files (pending changes outside the plan's scope)
+      - proposed_commit_message: text only — nothing staged or committed
+    constraints:
+      - no commits, no staging, no stash, no revert
+      - nothing changed until user approves a fix plan
+      - only high-priority fixes applied; lower-priority findings noted but not touched
+      - read-only commands against live cloud/Cognito permitted; mutating commands not permitted
+      - review done inline — no sub-agents
