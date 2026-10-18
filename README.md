@@ -1,16 +1,18 @@
 # Loop Engineering Workflow Scaffolding: A lightweight starting point to learn, share, and reuse
 
-This is an example of a lightweight starting point for sharing an AI-augmented development workflow and its harness across teams, products or projects.
+This is an example of a lightweight starting point for sharing an AI-augmented development workflow and its harness across your and other teams, products or projects.
 
 --
 
-*Imagine you have grown your workflow and the harness consisting of the workflow building blocks (skills, hooks, guardrails, ... specific to the workflow steps), over time, you are happy with it, and now you want to share that and the related learning with another team member, other teams, or you want to reuse it on a different product, project or codebase.*
+*Imagine you have grown your workflow and the harness consisting of the workflow building blocks (skills, hooks, guardrails, ... specific to the workflow steps), over time, you are happy with it, and now you want to share that and the related learning with another team member, your and other teams, or you want to reuse it on a different product, project or codebase.*
 
-*One way of doing that is to replicate the structure of this repo and follow the instructions and the example given. Whereas the internal or public plugin marketplace, or copy-paste, remains the preferred way for standard skills, hooks, etc. that are not specific to a workflow. Read below to see how and why. Or jump to the documentation to see the [example](#documentation-the-workflow).*
+*One way of doing that is to replicate the structure of this repo and follow the instructions and the example given. Whereas the internal or public plugin marketplace, or copy-paste, remains the preferred way for standard skills, hooks, etc. that are generic and not specific to a workflow. Read below to see how and why. Or jump to the documentation and look at this [example](#documentation-the-workflow).*
 
 ## Why
 
-This is why you should share your workflow and its harness using a repo like this, with only the **skeleton**, the key structure and essential logic of the various Skills, Hooks, etc., instead of copying them with all their content and details.
+This is why you should share only the **skeleton**, the key structure and essential logic of the workflow and its harness (Skills, Hooks, etc.) using a repo like this, instead of sharing a complete exact copy of it.
+
+**Think of this as a coaching and mentoring tool** designed to build foundational *Loop Engineering* expertise. Once you have that experience, you can simply grab an existing workflow harness from a plugin marketplace or shared storage, analyse it with AI, and tailor it to your needs,though keep in mind that this shortcut doesn't always save time.
 
 ### For Learning & Evolution
 
@@ -37,6 +39,8 @@ See how to share your workflow and its harness, using a repo like this one:
 1. Add your Skills, Hooks, etc. to the repo for every step of the workflow, replicating your agent's folder structure
 1. For every Skill, Hook, etc., add only its **skeleton**, the key structure and essential logic; remove the remaining details
 1. DO NOT COPY THE WHOLE FILE! In doubt, less is more; nothing is better than too much
+
+A single repository like this can be shared across a single or multiple teams, provided it fits their projects, products, and codebases. Teams or projects that work better with a different workflow can create a separate repository, maintaining a similar structure while including the workflow and harness that fit their specific needs.
 
 ## How to Reuse
 
