@@ -12,7 +12,7 @@ This is an example of a lightweight starting point for sharing an AI-augmented d
 
 This is why you should share only the **skeleton**, the key structure and essential logic of the workflow and its harness (Skills, Hooks, etc.) using a repo like this, instead of sharing a complete exact copy of it.
 
-**Think of this as a coaching and mentoring tool** designed to build foundational *Loop Engineering* expertise. Once you have that experience, you can simply grab an existing workflow harness from a plugin marketplace or shared storage, analyse it with AI, and tailor it to your needs,though keep in mind that this shortcut doesn't always save time.
+**Think of this as a coaching and mentoring tool** designed to build foundational *Loop Engineering* expertise. Once you have that experience, you can simply grab an existing workflow harness from a plugin marketplace or shared storage, analyse it with AI, and tailor it to your needs, though keep in mind that _this shortcut doesn't always save time_.
 
 ### For Learning & Evolution
 
